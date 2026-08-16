@@ -1,4 +1,0 @@
-https://wokwi.com/projects/472554117536717825
-
-Utilizando Wokwi se logro simular la calibracion de dos puntos usando un ESP32 y un potenciometro, gracias a esta simulacion se pudo
-obtener los valores de calibracion m y b.
