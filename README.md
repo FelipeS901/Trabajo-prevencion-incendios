@@ -17,8 +17,9 @@ Utilizando Wokwi se logro simular la calibracion de dos puntos usando un ESP32 y
 obtener los valores de m y b.
 - m = 0,443
 - b = -1,8764
-  
+
+## Grafo de estados (GT2)
+<img width="1424" height="820" alt="Grafo de estados" src="https://github.com/user-attachments/assets/06a64acd-7d5b-4f4a-b7ab-09142bd5784f" />
+
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
-
-<img width="1424" height="820" alt="Grafo de estados" src="https://github.com/user-attachments/assets/de7a56bb-2497-4b45-b5bd-23060e1c2603" />
