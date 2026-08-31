@@ -25,7 +25,7 @@ obtener los valores de m y b.
 <<img width="1425" height="1050" alt="mq-2 grafico" src="https://github.com/user-attachments/assets/2c5c33af-5276-4490-a4d3-8a7d1393f83c" />
 
 ## Ítem 1: Verificación Física del Sensor
-Durante la sesión experimentamos un percance de hardware: al conectar el sensor MQ-2 a las pilas de 3,7V con su respectivo divisor de voltaje, una de las pilas se descargó[cite: 2]. Esto limitó severamente el rango de detección a solo 8 cm, lo que impidió completar la calibración física de forma óptima según la cápsula[cite: 2]. 
+Durante la sesión experimentamos un percance de hardware: al conectar el sensor MQ-2 a las pilas de 3,7V con su respectivo divisor de voltaje, una de las pilas se descargó. Esto limitó severamente el rango de detección a solo 8 cm, lo que impidió completar la calibración física de forma óptima según la cápsula. 
 
 ## Ítem 8: Justificación de Umbrales e Histéresis
 
