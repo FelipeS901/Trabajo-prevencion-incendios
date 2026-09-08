@@ -38,7 +38,8 @@ Las decisiones para configurar los tiempos y umbrales en nuestra máquina de est
 <img width="709" height="231" alt="image" src="https://github.com/user-attachments/assets/70d1883a-9f82-490c-a4f4-d5414c43ae3b" />
 
 ## Evidencia Ítem 7: Fusión de Sensores
-<img width="772" height="575" alt="image" src="https://github.com/user-attachments/assets/8bc976f4-47a9-4c6a-8bd4-53f1a9715016" />
+<img width="1022" height="385" alt="image" src="https://github.com/user-attachments/assets/1941e115-c1e5-4e83-9dc3-21d70cef51ce" />
+
 
 ## Evidencia Ítem 8: Histéresis Temporal
 <img width="764" height="598" alt="image" src="https://github.com/user-attachments/assets/8bf7dc8b-ec9e-4d6d-9131-1a75aa94e70e" />
