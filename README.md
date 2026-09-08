@@ -35,7 +35,8 @@ Las decisiones para configurar los tiempos y umbrales en nuestra máquina de est
 * **Umbrales de MQ-2 (1500 ADC) y Temperatura (45.0 °C):** Fijamos estos valores apoyándonos en los lineamientos de la "Guía de los Sensores" y nuestro documento de diseño. El objetivo es separar claramente una emergencia real de las variaciones normales del ambiente (como días muy calurosos o polvo doméstico), para evitar que el zumbador oscile por falsas alarmas.
   
 ## Evidencia Ítem 6: Transición a Estado de Error (GT2)
-<img width="709" height="231" alt="image" src="https://github.com/user-attachments/assets/70d1883a-9f82-490c-a4f4-d5414c43ae3b" />
+<img width="826" height="280" alt="image" src="https://github.com/user-attachments/assets/ae5123e1-3c97-4a95-a9d8-04b836fef744" />
+
 
 ## Evidencia Ítem 7: Fusión de Sensores
 <img width="1022" height="385" alt="image" src="https://github.com/user-attachments/assets/1941e115-c1e5-4e83-9dc3-21d70cef51ce" />
