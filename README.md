@@ -42,7 +42,8 @@ Las decisiones para configurar los tiempos y umbrales en nuestra máquina de est
 
 
 ## Evidencia Ítem 8: Histéresis Temporal
-<img width="764" height="598" alt="image" src="https://github.com/user-attachments/assets/8bf7dc8b-ec9e-4d6d-9131-1a75aa94e70e" />
+<img width="1022" height="457" alt="image" src="https://github.com/user-attachments/assets/0e1f6cda-b810-43fd-9fa8-d3c8b8e311b2" />
+
 
 
 
