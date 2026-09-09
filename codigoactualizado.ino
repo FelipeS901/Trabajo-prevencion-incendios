@@ -1,34 +1,34 @@
 /* ==========================================================================
    FUNDAMENTOS DE IoT - 2do SEMESTRE 2026
-   GT2 - Deteccion de Incendio conformada al Grafo de Estados con Pantalla OLED
+   GT2 - Detección de Incendio conformada al Grafo de Estados con Pantalla OLED
+   Adaptado con Autocalibración Rs/R0 (Opción A), T_CRIT=60.0°C y Timeout=30s
    ========================================================================== */
 
 #include "DHTesp.h"
-#include <U8x8lib.h>   // libreria "U8g2" (Oliver Kraus), modo texto U8x8
+#include <U8x8lib.h>   // librería "U8g2" (Oliver Kraus), modo texto U8x8
+#include <math.h>
 
 // ---------------------------------------------------------------------------
-// 1. Configuracion de Hardware (Segun Hoja de Conexiones P23)
+// 1. Configuración de Hardware
 // ---------------------------------------------------------------------------
 const uint8_t PIN_LLAMA   = 27;    // Entr. Digital (Llama IR DO) -> GPIO 27
-const uint8_t PIN_MQ2     = 34;    // Entr. Analogica (MQ-2 AO) -> GPIO 34 (ADC1)
+const uint8_t PIN_MQ2     = 34;    // Entr. Analógica (MQ-2 AO) -> GPIO 34 (ADC1)
 const uint8_t PIN_DHT     = 15;    // Sensor Temperatura/Humedad -> GPIO 15
 const uint8_t PIN_BUZZER  = 25;    // Zumbador pasivo -> GPIO 25
 
 const uint8_t PIN_LED_OK  = 32;    // Estado Normal
 const uint8_t PIN_LED_AL  = 33;    // Estado Alerta / Error
-const uint8_t PIN_BOTON   = 4;     // Boton multifuncion (Paro / Rearme)
-// SDA = GPIO 21 y SCL = GPIO 22 quedan reservados para el bus I2C.
+const uint8_t PIN_BOTON   = 4;     // Botón multifunción (Paro / Rearme)
 
 #define TIPO_DHT DHTesp::DHT22
 
-// Parametros y Umbrales segun Grafo y Guia de Sensores
-const uint16_t UMBRAL_HUMO_ADC      = 1500;   // Humo (MQ-2) >= 1500 ADC counts
-const float    UMBRAL_TEMP_CRIT     = 45.0;   // Temp >= 45.0 °C
-const uint32_t TIMEOUT_SOSPECHA_MS  = 10000;  // Timeout 10s (millis() - t_entrada >= 10000ms)
+// --- Parámetros y Umbrales Dinámicos ---
+const float    UMBRAL_TEMP_CRIT     = 60.0;   // Temp >= 60.0 °C 
+const uint32_t TIMEOUT_SOSPECHA_MS  = 30000;  // Timeout 30s (millis() - t_entrada >= 30000ms)
 
-const uint32_t PERIODO_MUESTREO_MS  = 2000;   // Muestreo minimo DHT22 (>= 2s)
-const uint8_t  MAX_INVALIDAS        = 3;      // Persistencia: 3 lecturas invalidas
-const uint32_t T_ANTIRREBOTE_MS     = 80;     // Antirrebote de boton
+const uint32_t PERIODO_MUESTREO_MS  = 2000;   // Muestreo mínimo DHT22 (>= 2s)
+const uint8_t  MAX_INVALIDAS        = 8;      // Persistencia: 3 lecturas inválidas
+const uint32_t T_ANTIRREBOTE_MS     = 80;     // Antirrebote de botón
 
 const bool     LLAMA_ACTIVA_EN_BAJO = true;   // Salida digital Llama IR activa en LOW
 const bool     BUZZER_PASIVO        = true;   // Zumbador pasivo (requiere onda cuadrada)
@@ -36,17 +36,23 @@ const uint32_t FREC_BUZZER_HZ       = 2000;   // Frecuencia del tono
 
 // --- Pantalla ---
 const uint32_t PERIODO_PANTALLA_MS = 500;
-const uint32_t VELOCIDAD_I2C_HZ    = 400000;  // 400 kHz: maximo del SSD1306
+const uint32_t VELOCIDAD_I2C_HZ    = 400000;  // 400 kHz: máximo del SSD1306
+
+// --- Variables de Calibración MQ-2 (Opción A: Razón Adimensional Rs/R0) ---
+float adc0_linea_base = 200.0; // Valor por defecto hasta ejecutar setup()
+float sigma_adc0      = 0.0;
+float umbral_rs_r0    = 0.70;  // Umbral dinámico adaptativo (caída del 30% en Rs/R0)
+float razon_rs_r0     = 1.0;   // Razón actual calculada
 
 // ---------------------------------------------------------------------------
-// 2. Maquina de Estados (Enum de 4 estados del Grafo)
+// 2. Máquina de Estados
 // ---------------------------------------------------------------------------
 enum Estado : uint8_t { VIGILANDO, SOSPECHA, ALARMA_CONFIRMADA, ERROR_SEGURO };
 
 DHTesp   dht;
 Estado   estado      = VIGILANDO;
 uint32_t t_entrada   = 0;
-uint32_t t_pantalla  = 0;    // ultimo refresco de la pantalla
+uint32_t t_pantalla  = 0;    // Último refresco de la pantalla
 
 float    temperatura     = 0.0;
 uint16_t humo_adc        = 0;
@@ -71,11 +77,60 @@ void cambiar(Estado e, const char* motivo) {
                 millis(), nombreEstado(estado), nombreEstado(e), motivo);
   estado     = e;
   t_entrada  = millis();
-  t_pantalla = 0;   // fuerza el refresco inmediato en la pantalla
+  t_pantalla = 0;   // Fuerza el refresco inmediato en la pantalla
 }
 
 // ---------------------------------------------------------------------------
-// 3. Entradas, Salidas y Fusion (Funciones No Bloqueantes)
+// 3. Funciones de Calibración MQ-2 (Opción A)
+// ---------------------------------------------------------------------------
+void calibrarMQ2() {
+  Serial.println("\n[CALIBRACION] Midiendo linea base de MQ-2 en aire limpio...");
+  const uint8_t MUESTRAS = 60;
+  float lecturas[MUESTRAS];
+  float suma = 0.0;
+
+  for (uint8_t i = 0; i < MUESTRAS; i++) {
+    lecturas[i] = (float)analogRead(PIN_MQ2);
+    suma += lecturas[i];
+    delay(50); // Muestreo continuo durante 3 segundos
+  }
+
+  // 1. Media de la línea base (ADC0)
+  adc0_linea_base = suma / MUESTRAS;
+  if (adc0_linea_base < 1.0) adc0_linea_base = 1.0; // Evita división por cero
+
+  // 2. Dispersión (Desviación estándar sigma)
+  float suma_sq = 0.0;
+  for (uint8_t i = 0; i < MUESTRAS; i++) {
+    suma_sq += pow(lecturas[i] - adc0_linea_base, 2);
+  }
+  sigma_adc0 = sqrt(suma_sq / MUESTRAS);
+
+  // 3. Cálculo de Umbral Dinámico derivado de la dispersión del montaje
+  float margen_ruido = (3.0 * sigma_adc0) / adc0_linea_base;
+  umbral_rs_r0 = 1.0 - (0.20 + margen_ruido); // Caída mínima del 20% + margen 3*sigma
+
+  // Límite de seguridad para el umbral
+  if (umbral_rs_r0 > 0.85) umbral_rs_r0 = 0.85;
+  if (umbral_rs_r0 < 0.50) umbral_rs_r0 = 0.50;
+
+  Serial.printf("[CALIBRACION] ADC0 Base: %.2f | Sigma: %.2f | Umbral Rs/R0: %.3f\n\n",
+                adc0_linea_base, sigma_adc0, umbral_rs_r0);
+}
+
+float calcularRazonRsR0(uint16_t adc_actual) {
+  if (adc_actual <= 0) return 1.0;
+  
+  // Expresión simplificada de la razón Rs/R0 (Cancela Vc y RL)
+  float rs_actual = (4095.0 - (float)adc_actual) / (float)adc_actual;
+  float r0_base   = (4095.0 - adc0_linea_base) / adc0_linea_base;
+
+  if (r0_base <= 0) return 1.0;
+  return rs_actual / r0_base;
+}
+
+// ---------------------------------------------------------------------------
+// 4. Entradas, Salidas y Fusión (No Bloqueantes)
 // ---------------------------------------------------------------------------
 void telemetria();
 
@@ -84,7 +139,7 @@ void leerSensores() {
   if (millis() - t_muestreo < PERIODO_MUESTREO_MS) return;
   t_muestreo = millis();
 
-  // DHT22: Lectura con verificacion
+  // DHT22: Lectura con verificación
   float lecturaT = dht.getTemperature();
   if (isnan(lecturaT)) { 
     invalidas++; 
@@ -93,8 +148,9 @@ void leerSensores() {
     invalidas = 0; 
   }
 
-  // MQ-2: Lectura ADC directa en GPIO 34
-  humo_adc = analogRead(PIN_MQ2);
+  // MQ-2: Lectura ADC y cálculo de Razón Adimensional
+  humo_adc     = analogRead(PIN_MQ2);
+  razon_rs_r0  = calcularRazonRsR0(humo_adc);
 
   // Llama IR: Lectura digital con polaridad de comparador
   bool nivel_llama = digitalRead(PIN_LLAMA);
@@ -104,19 +160,28 @@ void leerSensores() {
 }
 
 void telemetria() {
-  Serial.printf("[%8lu ms] T=%5.1fC Humo=%4u Llama=%s | %-17s | invalidas=%u\n",
-                millis(), temperatura, humo_adc, 
+  Serial.printf("[%8lu ms] T=%5.1fC Humo=%4u (Rs/R0=%4.2f) Llama=%s | %-17s | inv=%u\n",
+                millis(), temperatura, humo_adc, razon_rs_r0,
                 llama_detectada ? "SI" : "NO", 
                 nombreEstado(estado), invalidas);
 }
 
 // ---------------------------------------------------------------------------
-// 3b. Pantalla I2C (4 lineas de texto)
+// 4b. Pantalla I2C (4 líneas de texto)
 // ---------------------------------------------------------------------------
 void linea(uint8_t fila, const char* texto) {
   char buf[17];
   snprintf(buf, sizeof(buf), "%-16s", texto);
   oled.drawString(0, fila * 2, buf); // Fila 0, 2, 4, 6 en coordenadas U8x8
+}
+
+// Fusión de 2-3 sensores (Humo Rs/R0, Llama, Temp)
+uint8_t contarSensoresEnPeligro() {
+  uint8_t conteo = 0;
+  if (razon_rs_r0 <= umbral_rs_r0)    conteo++;
+  if (llama_detectada)                conteo++;
+  if (temperatura >= UMBRAL_TEMP_CRIT) conteo++;
+  return conteo;
 }
 
 void pantalla() {
@@ -125,7 +190,7 @@ void pantalla() {
 
   char txt[24];
   
-  // Linea 1: Estado FSM
+  // Línea 1: Estado FSM
   linea(0, nombreEstado(estado));
 
   if (invalidas > 0) {
@@ -133,18 +198,18 @@ void pantalla() {
     snprintf(txt, sizeof(txt), "Lect. Inv: %u/3", invalidas);
     linea(2, txt);
   } else {
-    // Linea 2: Temp y Humo ADC
-    snprintf(txt, sizeof(txt), "T:%4.1fC H:%4u", temperatura, humo_adc);
+    // Línea 2: Temp y Razón Rs/R0
+    snprintf(txt, sizeof(txt), "T:%4.1fC R:%4.2f", temperatura, razon_rs_r0);
     linea(1, txt);
 
-    // Linea 3: Llama IR y Conteo de Peligro
+    // Línea 3: Llama IR y Conteo de Peligro
     snprintf(txt, sizeof(txt), "Llama:%-3s Pel:%u/3", 
              llama_detectada ? "SI" : "NO", 
-             (humo_adc >= UMBRAL_HUMO_ADC ? 1 : 0) + (llama_detectada ? 1 : 0) + (temperatura >= UMBRAL_TEMP_CRIT ? 1 : 0));
+             contarSensoresEnPeligro());
     linea(2, txt);
   }
 
-  // Linea 4: Tiempo en estado actual
+  // Línea 4: Tiempo en estado actual
   snprintf(txt, sizeof(txt), "T_Est: %lu s", (millis() - t_entrada) / 1000);
   linea(3, txt);
 }
@@ -189,17 +254,8 @@ void buzzerIntermitente() {
   buzzer((millis() / 300) % 2); 
 }
 
-// Fusion de 2-3 sensores (Humo, Llama, Temp)
-uint8_t contarSensoresEnPeligro() {
-  uint8_t conteo = 0;
-  if (humo_adc >= UMBRAL_HUMO_ADC) conteo++;
-  if (llama_detectada)              conteo++;
-  if (temperatura >= UMBRAL_TEMP_CRIT) conteo++;
-  return conteo;
-}
-
 // ---------------------------------------------------------------------------
-// 4. Setup
+// 5. Setup
 // ---------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);
@@ -211,7 +267,7 @@ void setup() {
   pinMode(PIN_LED_OK, OUTPUT);
   pinMode(PIN_LED_AL, OUTPUT);
 
-  // Inicializacion de pantalla OLED I2C
+  // Inicialización de pantalla OLED I2C
   oled.setBusClock(VELOCIDAD_I2C_HZ);
   oled.begin();
   oled.setFont(u8x8_font_chroma48medium8_r);
@@ -221,15 +277,17 @@ void setup() {
 
   Serial.println("\n========================================================");
   Serial.println(" Deteccion de Incendio Forestal - FSM Grafo de Estados");
-  Serial.printf(" Pantalla: OLED SSD1306 128x64 en I2C 0x3C a %lu Hz (SDA 21, SCL 22)\n",
-                VELOCIDAD_I2C_HZ);
+  Serial.printf(" Pantalla: OLED SSD1306 128x64 en I2C 0x3C a %lu Hz\n", VELOCIDAD_I2C_HZ);
   Serial.println("========================================================");
+
+  // Calibración inicial del sensor MQ-2 en aire limpio
+  calibrarMQ2();
 
   cambiar(VIGILANDO, "arranque");
 }
 
 // ---------------------------------------------------------------------------
-// 5. Lazo Principal (FSM 1 a 1 con el Grafo)
+// 6. Lazo Principal (FSM 1 a 1 con el Grafo)
 // ---------------------------------------------------------------------------
 void loop() {
   leerSensores();
@@ -241,9 +299,9 @@ void loop() {
       buzzer(false); 
       leds(true, false);
 
-      // Transicion: Humo >= 1500 ADC OR Llama == true OR Temp >= 45.0 °C
+      // Transición: Rs/R0 <= Umbral OR Llama == true OR Temp >= 60.0 °C
       if (sensores_activos >= 1) {
-        cambiar(SOSPECHA, "Humo >= 1500 OR Llama == true OR temp >= 45.0 C");
+        cambiar(SOSPECHA, "Rs/R0 <= Umbral OR Llama == true OR temp >= 60.0 C");
       }
       break;
 
@@ -251,13 +309,13 @@ void loop() {
       buzzer(false); 
       leds(true, true);
 
-      // Transicion 1: Fusion de 2-3 sensores -> ALARMA_CONFIRMADA
+      // Transición 1: Fusión de 2-3 sensores -> ALARMA_CONFIRMADA
       if (sensores_activos >= 2) {
         cambiar(ALARMA_CONFIRMADA, "Fusion de 2-3 sensores (Humo, Llama, Temp)");
       } 
-      // Transicion 2: Timeout 10s (millis() - t_entrada >= 10000ms) -> VIGILANDO
+      // Transición 2: Timeout 30s (millis() - t_entrada >= 30000ms) -> VIGILANDO
       else if (millis() - t_entrada >= TIMEOUT_SOSPECHA_MS) {
-        cambiar(VIGILANDO, "Timeout 10s (millis() - t_entrada >= 10000ms)");
+        cambiar(VIGILANDO, "Timeout 30s (millis() - t_entrada >= 30000ms)");
       }
       break;
 
@@ -265,7 +323,7 @@ void loop() {
       buzzer(true); 
       leds(false, true);
 
-      // Transicion: Peligro parcialmente disipado (< 2 sensores) -> SOSPECHA
+      // Transición: Peligro parcialmente disipado (< 2 sensores) -> SOSPECHA
       if (sensores_activos < 2) {
         cambiar(SOSPECHA, "Peligro parcialmente disipado (< 2 sensores)");
       }
@@ -275,7 +333,7 @@ void loop() {
       buzzerIntermitente(); 
       leds(false, true);
 
-      // Transicion: boton de rearme -> VIGILANDO
+      // Transición: botón de rearme -> VIGILANDO
       if (boton()) { 
         invalidas = 0; 
         cambiar(VIGILANDO, "boton de rearme"); 
@@ -283,7 +341,7 @@ void loop() {
       break;
   }
 
-  // Guardias Globales (Transicion hacia ERROR_SEGURO desde cualquier estado)
+  // Guardias Globales (Transición hacia ERROR_SEGURO desde cualquier estado)
   if (estado != ERROR_SEGURO) {
     bool pulsado = boton();
     if (invalidas >= MAX_INVALIDAS) {
