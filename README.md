@@ -67,9 +67,9 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 ## Tabla de Tópicos MQTT (GT4)
 | Nombre del Tópico | QoS | Retained | Descripción del Payload |
 | :--- | :---: | :---: | :--- |
-| `IoT/E33/P23/nodo1` | 1 | Sí | JSON plano con datos físicos calibrados (temperatura, humedad, razon_rs_r0, llama, rssi_dbm, sensor_ok) |
-| `IoT/E33/P23/nodo1/estado` | 1 | Sí | String de texto simple con el estado actual de la máquina de estados (FSM) |
-| `IoT/E33/P23/nodo1/cmd` | 1 | No | Reservado para recepción de comandos entrantes |
+| `curso/E33/P23/nodo1` | 1 | Sí | JSON plano con datos físicos calibrados (temperatura, humedad, razon_rs_r0, llama, rssi_dbm, sensor_ok) |
+| `curso/E33/P23/nodo1/estado` | 1 | Sí | String de texto simple con el estado actual de la máquina de estados (FSM) |
+| `curso/E33/P23/nodo1/cmd` | 1 | No | Reservado para recepción de comandos entrantes |
 
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
