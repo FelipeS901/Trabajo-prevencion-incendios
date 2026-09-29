@@ -1,0 +1,106 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="4alQ2t6IkonBZKkX4U61">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6ZqMNwkkk5hvwl2-RHLK-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;VIGILANDO&lt;/b&gt;&lt;div&gt;Monitoreo (Humo, Llama y Temp)&lt;br&gt;&lt;div&gt;Salida: buzzer OFF&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="66.5" width="150" x="60" y="144.75" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;SOSPECHA&lt;/b&gt;&lt;div&gt;Espera Confirmación (millis())&lt;br&gt;&lt;div&gt;Salida: buzzer OFF&lt;/div&gt;&lt;/div&gt;&lt;div&gt;Registrar t_entrada&lt;/div&gt;" vertex="1">
+          <mxGeometry height="84" width="170" x="340" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;ALARMA_CONFIRMADA&lt;/b&gt;&lt;div&gt;Fuego Confirmado&lt;/div&gt;&lt;div&gt;Salida: buzzer ON&lt;/div&gt;" vertex="1">
+          <mxGeometry height="49" width="160" x="660" y="153.5" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#ae4132;fillColor=#fad9d5;" value="&lt;b&gt;ERROR_SEGURO&lt;/b&gt;&lt;div&gt;Buzzer: INTERMITENTE&lt;/div&gt;&lt;div&gt;Salida segura&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="150" x="200" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-5" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=1;curved=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="177" />
+              <mxPoint x="840" y="440" />
+              <mxPoint x="440" y="440" />
+              <mxPoint x="-290" y="440" />
+              <mxPoint x="-290" y="190" />
+              <mxPoint x="-290" y="40" />
+              <mxPoint x="440" y="40" />
+            </Array>
+            <mxPoint x="840" y="50" as="sourcePoint" />
+            <mxPoint x="840" y="40" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-10" edge="1" parent="1" style="endArrow=classic;endFill=0;html=1;rounded=0;fillColor=#fad9d5;strokeColor=#ae4132;dashed=1;curved=0;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="274.5" y="440" as="sourcePoint" />
+            <mxPoint x="274.5" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-11" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="-670" y="139" as="sourcePoint" />
+            <mxPoint x="-617" y="139" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;inicio&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="50" x="-670" y="114.75" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-16" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.30073024983942814;endAngle=0.6783685328255156;endArrow=classic;endFill=1;rotation=-179;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="200.17" y="109.83" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-17" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.2874881480022106;endAngle=0.7446967987972323;endArrow=classic;endFill=1;rotation=-179;" value="" vertex="1">
+          <mxGeometry height="90" width="170" x="503" y="102.92" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Timeout 3&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;0s (millis() - t_entrada ≥ 30000ms)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="210" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-20" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.32379180882521663;endAngle=0.6891578386615579;endArrow=classic;endFill=1;rotation=0;" value="" vertex="1">
+          <mxGeometry height="114.34" width="150" x="200" y="136" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-21" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.2581131153361122;endAngle=0.737294663166942;endArrow=classic;endFill=1;rotation=0;" value="" vertex="1">
+          <mxGeometry height="320" width="620" x="50" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="[Guarda t_entrada = millis()]" vertex="1">
+          <mxGeometry height="30" width="107" x="219.51" y="166" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="(Rs/R0 ≤ U_dinámico) OR (Llama == true) OR (temp ≥&amp;nbsp;60.0 °C)" vertex="1">
+          <mxGeometry height="30" width="196.91" x="173.09" y="72.92" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Fusión de 2-3 sensores activos&lt;div&gt;[Humo (Rs/R0&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;≤ U_dinámico&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;), Llama, Temp&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;≥ 60°C&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;]&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="196.91" x="489" y="62" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Botón pulsado AND peligro disipado (&amp;lt; 2 sensores)" vertex="1">
+          <mxGeometry height="30" width="150" x="290" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-27" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontColor=#AD0000;" value="- botón de paro o emergencia&lt;div&gt;- falta de tiempo/timeout sensor&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(173, 0, 0), rgb(255, 174, 174));&quot;&gt;(tiempo)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;- 8 lecturas inválidas consecutivas (&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(173, 0, 0), rgb(255, 174, 174));&quot;&gt;lectura inválida&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(173, 0, 0), rgb(255, 174, 174));&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;- falla de umbral crítico (varios umbrales)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="49" width="286" x="282" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-28" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.5262842283556267;endAngle=0.7309922960760251;endArrow=classic;endFill=1;rotation=0;" value="" vertex="1">
+          <mxGeometry height="875" width="1960" x="-630" y="-270" as="geometry" />
+        </mxCell>
+        <mxCell id="lLUT8h6G8QmgDKSItZkD-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="botón de rearme" vertex="1">
+          <mxGeometry height="30" width="60" x="-274.93" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="F8sHMJQ5nDspNKIbt4fv-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;PRECALENTANDO&lt;/b&gt;&lt;div&gt;Estabilización térmica (millis())&lt;b&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;Salida: buzzer OFF, LED intermitente&lt;/div&gt;&lt;div&gt;Evaluar tiempo (180000 ms)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="75.25" width="207.5" x="-617" y="140.38" as="geometry" />
+        </mxCell>
+        <mxCell id="F8sHMJQ5nDspNKIbt4fv-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;CALIBRANDO&lt;/b&gt;&lt;div&gt;Muestreo en aire limpio (millis())&lt;/div&gt;&lt;div&gt;Salida: buzzer OFF, LEDs ON&lt;/div&gt;&lt;div&gt;Calcular rs_r0_base y umbral&lt;/div&gt;" vertex="1">
+          <mxGeometry height="66.5" width="190" x="-274.93" y="144.75" as="geometry" />
+        </mxCell>
+        <mxCell id="F8sHMJQ5nDspNKIbt4fv-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="millis() - t_entrada ≥&amp;nbsp;180000" vertex="1">
+          <mxGeometry height="30" width="120" x="-403.93" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="F8sHMJQ5nDspNKIbt4fv-5" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.30073024983942814;endAngle=0.7065493153966425;endArrow=classic;endFill=1;rotation=-179;" value="" vertex="1">
+          <mxGeometry height="100" width="150" x="-418.92880254140647" y="103.92131524061585" as="geometry" />
+        </mxCell>
+        <mxCell id="F8sHMJQ5nDspNKIbt4fv-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="[calibrarPaso() == true] // Linea Base establecida" vertex="1">
+          <mxGeometry height="30" width="140" x="-84.93" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="F8sHMJQ5nDspNKIbt4fv-7" parent="1" style="shape=mxgraph.basic.arc;html=1;startAngle=0.29048393388344096;endAngle=0.7065493153966425;endArrow=classic;endFill=1;rotation=-179;" value="" vertex="1">
+          <mxGeometry height="108.5" width="160" x="-89.93" y="101.6" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

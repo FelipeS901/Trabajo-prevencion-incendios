@@ -1,0 +1,132 @@
+{
+  "version": "31.4.5",
+  "pages": [
+    {
+      "id": "4alQ2t6IkonBZKkX4U61",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "6ZqMNwkkk5hvwl2-RHLK-2",
+          "type": "node",
+          "parent": "1",
+          "label": "VIGILANDO\nMonitoreo (Humo, Llama y Temp)\nSalida: buzzer OFF",
+          "html": "<b>VIGILANDO</b><div>Monitoreo (Humo, Llama y Temp)<br><div>Salida: buzzer OFF</div></div>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SOSPECHA\nEspera Confirmación (millis())\nSalida: buzzer OFF\nRegistrar t_entrada",
+          "html": "<b>SOSPECHA</b><div>Espera Confirmación (millis())<br><div>Salida: buzzer OFF</div></div><div>Registrar t_entrada</div>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-2",
+          "type": "node",
+          "parent": "1",
+          "label": "ALARMA_CONFIRMADA\nFuego Confirmado\nSalida: buzzer ON",
+          "html": "<b>ALARMA_CONFIRMADA</b><div>Fuego Confirmado</div><div>Salida: buzzer ON</div>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-3",
+          "type": "node",
+          "parent": "1",
+          "label": "ERROR_SEGURO\nBuzzer: INTERMITENTE\nSalida segura",
+          "html": "<b>ERROR_SEGURO</b><div>Buzzer: INTERMITENTE</div><div>Salida segura</div>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-5",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-16",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-17",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-19",
+          "type": "node",
+          "parent": "1",
+          "label": "Timeout 30s (millis() - t_entrada ≥ 30000ms)",
+          "html": "Timeout 3<span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">0s (millis() - t_entrada ≥ 30000ms)</span>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-20",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-21",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-23",
+          "type": "node",
+          "parent": "1",
+          "label": "[Guarda t_entrada = millis()]"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-24",
+          "type": "node",
+          "parent": "1",
+          "label": "(Rs/R0 ≤ U_dinámico) OR (Llama == true) OR (temp ≥&nbsp;60.0 °C)"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-25",
+          "type": "node",
+          "parent": "1",
+          "label": "Fusión de 2-3 sensores activos\n[Humo (Rs/R0 ≤ U_dinámico), Llama, Temp ≥ 60°C]",
+          "html": "Fusión de 2-3 sensores activos<div>[Humo (Rs/R0&nbsp;<span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">≤ U_dinámico</span><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">), Llama, Temp&nbsp;</span><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">≥ 60°C</span><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">]</span></div>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-26",
+          "type": "node",
+          "parent": "1",
+          "label": "Botón pulsado AND peligro disipado (&lt; 2 sensores)"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-27",
+          "type": "node",
+          "parent": "1",
+          "label": "- botón de paro o emergencia\n- falta de tiempo/timeout sensor (tiempo)\n- 8 lecturas inválidas consecutivas (lectura inválida)\n- falla de umbral crítico (varios umbrales)",
+          "html": "- botón de paro o emergencia<div>- falta de tiempo/timeout sensor&nbsp;<span style=\"background-color: transparent; color: light-dark(rgb(173, 0, 0), rgb(255, 174, 174));\">(tiempo)</span></div><div>- 8 lecturas inválidas consecutivas (<span style=\"background-color: transparent; color: light-dark(rgb(173, 0, 0), rgb(255, 174, 174));\">lectura inválida</span><span style=\"background-color: transparent; color: light-dark(rgb(173, 0, 0), rgb(255, 174, 174));\">)</span></div><div>- falla de umbral crítico (varios umbrales)</div>"
+        },
+        {
+          "id": "lLUT8h6G8QmgDKSItZkD-29",
+          "type": "node",
+          "parent": "1",
+          "label": "botón de rearme"
+        },
+        {
+          "id": "F8sHMJQ5nDspNKIbt4fv-3",
+          "type": "node",
+          "parent": "1",
+          "label": "CALIBRANDO\nMuestreo en aire limpio (millis())\nSalida: buzzer OFF, LEDs ON\nCalcular rs_r0_base y umbral",
+          "html": "<b>CALIBRANDO</b><div>Muestreo en aire limpio (millis())</div><div>Salida: buzzer OFF, LEDs ON</div><div>Calcular rs_r0_base y umbral</div>"
+        },
+        {
+          "id": "F8sHMJQ5nDspNKIbt4fv-6",
+          "type": "node",
+          "parent": "1",
+          "label": "[calibrarPaso() == true] // Linea Base establecida"
+        },
+        {
+          "id": "F8sHMJQ5nDspNKIbt4fv-7",
+          "type": "node",
+          "parent": "1"
+        }
+      ]
+    }
+  ]
+}

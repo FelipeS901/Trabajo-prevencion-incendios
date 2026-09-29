@@ -1,0 +1,273 @@
+{
+  "version": "31.4.5",
+  "pages": [
+    {
+      "id": "qNyZ5rTeIOCU9WWrm1rd",
+      "name": "Página-1",
+      "cells": [
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-6",
+          "type": "node",
+          "parent": "1",
+          "label": "EDGE",
+          "html": "<b><font style=\"font-size: 30px;\">EDGE</font></b>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-11",
+          "type": "node",
+          "parent": "1",
+          "label": "INGESTA",
+          "html": "<span style=\"font-size: 30px;\"><b>INGESTA</b></span>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-12",
+          "type": "node",
+          "parent": "1",
+          "label": "HOT PATH",
+          "html": "<b><font style=\"font-size: 30px;\">HOT PATH</font></b>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-13",
+          "type": "node",
+          "parent": "1",
+          "label": "COLD PATH",
+          "html": "<b><font style=\"font-size: 30px;\">COLD PATH</font></b>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-15",
+          "type": "node",
+          "parent": "1",
+          "label": "El nodo decide solo - Hardware",
+          "html": "<font style=\"font-size: 13px;\">El nodo decide solo - Hardware</font>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-16",
+          "type": "node",
+          "parent": "1",
+          "label": "Recibe y encamina - Recibir datos de ESP32",
+          "html": "<font style=\"font-size: 13px;\">Recibe y encamina - Recibir datos de ESP32</font>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-19",
+          "type": "node",
+          "parent": "1",
+          "label": "En vivo - Reacción rápida en la nube",
+          "html": "<font style=\"font-size: 13px;\">En vivo - Reacción rápida en la nube</font>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-20",
+          "type": "node",
+          "parent": "1",
+          "label": "Análisis en frío - Análisis histórico de tus sensores",
+          "html": "<font style=\"font-size: 13px;\">Análisis en frío - Análisis histórico de tus sensores</font>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-7",
+          "type": "edge",
+          "parent": "1",
+          "source": "bnb-eqL2vwfiaOIDFwCE-22",
+          "target": "bnb-eqL2vwfiaOIDFwCE-24"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-20",
+          "type": "edge",
+          "parent": "1",
+          "source": "bnb-eqL2vwfiaOIDFwCE-22",
+          "target": "xh274w1uavGraOcHCtLG-17"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-22",
+          "type": "node",
+          "parent": "1",
+          "label": "ESP32 FSM\n(lógica de fusión de señales)",
+          "html": "<b style=\"color: rgb(255, 255, 255);\"><font style=\"font-size: 17px;\">ESP32&nbsp;</font></b><b style=\"background-color: transparent; color: rgb(255, 255, 255);\"><font style=\"font-size: 17px;\">FSM</font></b><div><span style=\"background-color: transparent; color: rgb(255, 255, 255);\"><font style=\"font-size: 17px;\">(lógica de fusión de señales)</font></span></div>"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-24",
+          "type": "node",
+          "parent": "1",
+          "label": "BUZZER (alarma local)",
+          "html": "<font style=\"font-size: 17px; color: rgb(0, 0, 0);\"><b>BUZZER </b>(alarma local)</font>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-6",
+          "type": "edge",
+          "parent": "1",
+          "source": "bnb-eqL2vwfiaOIDFwCE-28",
+          "target": "bnb-eqL2vwfiaOIDFwCE-22"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-28",
+          "type": "node",
+          "parent": "1",
+          "label": "MQ-2\n(sensor de humo)",
+          "html": "<span style=\"font-size: 17px;\"><b>MQ-2</b></span><div><span style=\"font-size: 17px;\">(sensor de humo)</span></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-3",
+          "type": "edge",
+          "parent": "1",
+          "source": "bnb-eqL2vwfiaOIDFwCE-29",
+          "target": "bnb-eqL2vwfiaOIDFwCE-22"
+        },
+        {
+          "id": "bnb-eqL2vwfiaOIDFwCE-29",
+          "type": "node",
+          "parent": "1",
+          "label": "SENSOR IR\n(fuego)",
+          "html": "<span style=\"font-size: 17px;\"><b>SENSOR IR</b></span><div><span style=\"font-size: 17px;\">(fuego)</span></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-8",
+          "type": "node",
+          "parent": "1",
+          "label": "sonar si coinciden humo y llama",
+          "html": "<b><font style=\"font-size: 13px;\">sonar si coinciden humo y llama</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-15",
+          "type": "node",
+          "parent": "1",
+          "label": "humo (raw data) - 2s",
+          "html": "<b style=\"\"><font style=\"font-size: 13px;\">humo (raw data) - 2s</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-16",
+          "type": "node",
+          "parent": "1",
+          "label": "llama (0/1)\n- 5s",
+          "html": "<b style=\"\"><font style=\"font-size: 13px;\">llama (0/1)</font></b><div><b style=\"\"><font style=\"font-size: 13px;\">- 5s</font></b></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-23",
+          "type": "edge",
+          "parent": "1",
+          "source": "xh274w1uavGraOcHCtLG-17",
+          "target": "xh274w1uavGraOcHCtLG-18"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-17",
+          "type": "node",
+          "parent": "1",
+          "label": "MOSQUITTO\n(Broker MQTT)\n(curso/e33/p23/nodo1)",
+          "html": "<span style=\"font-size: 17px;\"><b>MOSQUITTO</b></span><div><span style=\"font-size: 17px;\">(Broker MQTT)</span><div><span style=\"font-size: 17px;\">(curso/e33/p23/nodo1)</span></div></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-18",
+          "type": "node",
+          "parent": "1",
+          "label": "Telegraf",
+          "html": "<span style=\"font-size: 17px;\"><b>Telegraf</b></span>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-40",
+          "type": "edge",
+          "parent": "1",
+          "source": "xh274w1uavGraOcHCtLG-19",
+          "target": "xh274w1uavGraOcHCtLG-33"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-19",
+          "type": "node",
+          "parent": "1",
+          "label": "InfluxDB\n(única verdad)",
+          "html": "<font color=\"#ffffff\"><span style=\"font-size: 17px;\"><b>InfluxDB</b></span></font><div><font color=\"#ffffff\"><span style=\"font-size: 17px;\">(única verdad)</span></font></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-24",
+          "type": "node",
+          "parent": "1",
+          "label": "suscrito a curso/#",
+          "html": "<b style=\"\"><font style=\"font-size: 13px;\">suscrito a curso/#</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-25",
+          "type": "node",
+          "parent": "1",
+          "label": "escribe mediciones",
+          "html": "<b style=\"\"><font style=\"font-size: 13px; background-color: rgb(213, 232, 212);\">escribe mediciones</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-30",
+          "type": "edge",
+          "parent": "1",
+          "source": "xh274w1uavGraOcHCtLG-18",
+          "target": "xh274w1uavGraOcHCtLG-19"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-32",
+          "type": "node",
+          "parent": "1",
+          "label": "JSON por MQTT cada 10s",
+          "html": "<b style=\"\"><font style=\"font-size: 13px; background-color: rgb(213, 232, 212);\">JSON por MQTT cada 10s</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-33",
+          "type": "node",
+          "parent": "1",
+          "label": "Grafana",
+          "html": "<span style=\"font-size: 17px;\"><b>Grafana</b></span>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-34",
+          "type": "node",
+          "parent": "1",
+          "label": "Node-RED\n(alerta remota de incendio)",
+          "html": "<span style=\"font-size: 17px;\"><b>Node-RED</b></span><div><span style=\"font-size: 17px;\">(alerta remota de incendio)</span></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-42",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-43",
+          "type": "node",
+          "parent": "1",
+          "label": "consulta en vivo",
+          "html": "<b style=\"\"><font style=\"font-size: 13px;\">consulta en vivo</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-44",
+          "type": "node",
+          "parent": "1",
+          "label": "alerta remota inmediata",
+          "html": "<b style=\"\"><font style=\"font-size: 13px;\">alerta remota inmediata</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-47",
+          "type": "node",
+          "parent": "1",
+          "label": "Export Semanal\n--> ETL pandas",
+          "html": "<span style=\"font-size: 17px;\"><b>Export Semanal</b></span><div><span style=\"font-size: 17px;\"><b>--&gt; ETL pandas</b></span></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-48",
+          "type": "node",
+          "parent": "1",
+          "label": "Hallazgo:\n¿Cuánto deriva la línea base del sensor MQ-2 en el rango de una semana y qué causa las falsas alarmas?",
+          "html": "<div style=\"\"><b style=\"font-size: 17px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));\">Hallazgo:</b></div><div style=\"\"><span style=\"color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));\"><font><span style=\"font-size: 17px;\">¿Cuánto deriva la línea base del sensor MQ-2&nbsp;</span></font><font style=\"background-color: transparent;\"><span style=\"font-size: 17px;\">en el rango de una&nbsp;</span></font><span style=\"background-color: transparent; font-size: 17px;\">semana y qué causa las falsas alarmas?</span></span></div>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-55",
+          "type": "edge",
+          "parent": "1",
+          "target": "xh274w1uavGraOcHCtLG-47"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-58",
+          "type": "node",
+          "parent": "1",
+          "label": "consulta Flux semanal",
+          "html": "<b style=\"\"><font style=\"font-size: 13px; background-color: rgb(213, 232, 212);\">consulta Flux semanal</font></b>"
+        },
+        {
+          "id": "xh274w1uavGraOcHCtLG-60",
+          "type": "edge",
+          "parent": "1",
+          "target": "xh274w1uavGraOcHCtLG-48"
+        }
+      ]
+    }
+  ]
+}
