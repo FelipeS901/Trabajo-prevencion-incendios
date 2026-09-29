@@ -58,17 +58,18 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 ## Evidencia Ítem 6: Transición a Estado de Error (GT2)
 <img width="826" height="280" alt="image" src="https://github.com/user-attachments/assets/ae5123e1-3c97-4a95-a9d8-04b836fef744" />
 
-
 ## Evidencia Ítem 7: Fusión de Sensores
 <img width="1022" height="385" alt="image" src="https://github.com/user-attachments/assets/1941e115-c1e5-4e83-9dc3-21d70cef51ce" />
-
 
 ## Evidencia Ítem 8: Histéresis Temporal
 <img width="1022" height="457" alt="image" src="https://github.com/user-attachments/assets/0e1f6cda-b810-43fd-9fa8-d3c8b8e311b2" />
 
-## Ítem 1: Verificación Física del Sensor
-Durante la sesión experimentamos un percance de hardware: al conectar el sensor MQ-2 a las pilas de 3,7V con su respectivo divisor de voltaje, una de las pilas se descargó. Esto limitó severamente el rango de detección a solo 8 cm, lo que impidió completar la calibración física de forma óptima según la cápsula. 
-
+## Tabla de Tópicos MQTT (GT4)
+| Nombre del Tópico | QoS | Retained | Descripción del Payload |
+| :--- | :---: | :---: | :--- |
+| `IoT/E33/P23/nodo1` | 1 | Sí | JSON plano con datos físicos calibrados (temperatura, humedad, razon_rs_r0, llama, rssi_dbm, sensor_ok) |
+| `IoT/E33/P23/nodo1/estado` | 1 | Sí | String de texto simple con el estado actual de la máquina de estados (FSM) |
+| `IoT/E33/P23/nodo1/cmd` | 1 | No | Reservado para recepción de comandos entrantes |
 
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
