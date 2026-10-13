@@ -67,9 +67,26 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 ## Tabla de Tópicos MQTT (GT4)
 | Nombre del Tópico | QoS | Retained | Descripción del Payload |
 | :--- | :---: | :---: | :--- |
-| `curso/E33/P23/nodo1` | 1 | Sí | JSON plano con datos físicos calibrados (temperatura, humedad, razon_rs_r0, llama, rssi_dbm, sensor_ok) |
+| `curso/E33/P23/nodo1` | 1 | Sí | JSON plano con datos físicos calibrados (`temperatura`, `humedad`, `llama_ir`, `rssi_dbm`, `sensor_ok`) y `razon_rs_r0` cuando MQ-2 ya está calibrado |
 | `curso/E33/P23/nodo1/estado` | 1 | Sí | String de texto simple con el estado actual de la máquina de estados (FSM) |
 | `curso/E33/P23/nodo1/cmd` | 1 | No | Reservado para recepción de comandos entrantes |
+
+### Campo MQTT/InfluxDB agregado para MQ-2
+
+- Campo enviado por MQTT: `razon_rs_r0` (numérico, redondeado a 3 decimales).
+- Se publica **solo después** del precalentamiento + calibración del MQ-2, para evitar datos no válidos.
+- En InfluxDB queda como `_field == "razon_rs_r0"` dentro de la medición `mediciones`.
+
+Consulta Flux sugerida (sin cambiar las consultas existentes de temperatura):
+
+```flux
+from(bucket: "mediciones")
+  |> range(start: -7d)
+  |> filter(fn: (r) => r._measurement == "mediciones")
+  |> filter(fn: (r) => r.equipo == "E33" and r.proyecto == "P23" and r.nodo == "nodo1")
+  |> filter(fn: (r) => r._field == "razon_rs_r0")
+  |> last()
+```
 
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
