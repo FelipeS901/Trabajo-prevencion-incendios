@@ -1,0 +1,11 @@
+config
+config.h
+
+# Credenciales y secretos locales
+.env
+.env.*
+*.secret
+secrets/
+*.key
+*.pem
+*.p12
