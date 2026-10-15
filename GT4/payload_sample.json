@@ -1,0 +1,18 @@
+{
+
+  "temperatura": 24.8,
+  "humedad": 58.4,
+  "razon_rs_r0": 0.94,
+  "llama": 0,
+  "rssi_dbm": -47,
+  "sensor_ok": 1,
+  "dht_ok": 1,
+  "mq2_ok": 1,
+  "mq2_listo": 1,
+  "mq2_mv": 1280,
+  "mq2_umbral": 0.67,
+  "humo": 0,
+  "sensores_peligro": 0,
+  "estado": "VIGILANDO"
+
+} 
