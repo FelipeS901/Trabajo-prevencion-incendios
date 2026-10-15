@@ -73,3 +73,44 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
+
+## Identificación del proyecto
+- Equipo: **E33**
+- Proyecto: **P23**
+- Asignatura: **Fundamentos de IoT**
+
+## Firmware oficial y versiones históricas
+- Firmware oficial: `CODIGOS/E33_1510comentado`.
+- Variante equivalente sin comentarios: `CODIGOS/E33_1510`.
+- Versiones históricas/de desarrollo (no oficiales): `GT4/codigo-nodo.ino` y `NP1/NP1_Codigo.ino`.
+
+## Estados FSM publicados en `estado`
+En el firmware actual, el campo `estado` del payload se publica como **valor numérico** según el enum de seis estados:
+
+- `0 PRECALENTANDO`
+- `1 CALIBRANDO`
+- `2 VIGILANDO`
+- `3 SOSPECHA`
+- `4 ALARMA_CONFIRMADA`
+- `5 ERROR_SEGURO`
+
+## Esquema de InfluxDB
+- Bucket: `mediciones`
+- Measurement: `mediciones`
+- Tags:
+  - `equipo=E33`
+  - `proyecto=P23`
+  - `nodo=nodo1`
+- Fields: valores numéricos del payload.
+
+## Documentación en `docs/`
+La documentación consolidada del proyecto está en `docs/`:
+- PDF de lanzamiento: [`docs/E33_P23_Lanzamiento_Proyecto.pdf`](docs/E33_P23_Lanzamiento_Proyecto.pdf)
+- Editables disponibles:
+  - [`docs/Arquitectura-Capas.drawio`](docs/Arquitectura-Capas.drawio)
+  - [`docs/Arquitectura-capas.json`](docs/Arquitectura-capas.json)
+  - [`docs/Grafo-Estados.drawio`](docs/Grafo-Estados.drawio)
+  - [`docs/Grafo-Estados.json`](docs/Grafo-Estados.json)
+
+> Aclaración MQTT: se mantiene la tabla de tópicos y el payload del tópico de datos es **JSON plano**.
+
