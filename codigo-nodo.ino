@@ -21,6 +21,8 @@ const uint32_t PERIODO_LECTURA_DHT_MS = 30000; // DHT22 mide cada 30 s
 const uint32_t PERIODO_LECTURA_IR_MS  = 5000;  // Llama IR mide cada 5 s
 const uint32_t PERIODO_LECTURA_MQ2_MS = 3000;  // MQ-2 mide cada 3 s (vigilancia)
 const uint32_t PERIODO_PUB_MS         = 5000;  // Publicar cada 5 s (mínimo permitido)
+const uint32_t TIEMPO_SOSPECHA_MS     = 30000; // 30 s para confirmar evento
+const uint32_t PERIODO_LOG_ESTADO_MS  = 5000;  // salida local de estado
 
 const uint32_t REINTENTO_WIFI_MS  = 15000; // cada 15s intenta conectarse wifi
 const uint32_t ESPERA_INICIAL     = 2000;  // backoff MQTT: 2, 4, 8, 16, 30 s mqtt
@@ -36,6 +38,7 @@ const float    MQ2_VREF_MV              = 3300.0f;
 const float    CAIDA_MINIMA_HUMO        = 0.30f;
 const float    UMBRAL_MIN_RS_R0         = 0.50f;
 const float    UMBRAL_MAX_RS_R0         = 0.85f;
+const float    UMBRAL_TEMP_CRIT_C       = 60.0f;
 
 /* ---------------- 2. ESTADO INTERNO ---------------- */
 DHT          dht(DHTPIN, DHTTYPE);
@@ -76,6 +79,21 @@ float razon_rs_r0 = NAN;
 bool  mq2Calibrado = false;
 bool  mq2LecturaValida = false;
 
+enum EstadoNodo : uint8_t {
+  ESTADO_PRECALENTANDO = 0,
+  ESTADO_CALIBRANDO,
+  ESTADO_VIGILANDO,
+  ESTADO_SOSPECHA,
+  ESTADO_ALARMA_CONFIRMADA,
+  ESTADO_ERROR_SEGURO
+};
+
+EstadoNodo estadoNodo = ESTADO_PRECALENTANDO;
+uint32_t tEntradaSospecha = 0;
+uint32_t tLogEstado = 0;
+bool estadoNodoPendiente = true;
+String ultimoEstadoPublicado = "";
+
 /* ---------------- 3. FUNCIONES AUXILIARES ---------------- */
 
 // 3.1 Lectura del DHT22
@@ -113,6 +131,110 @@ void actualizarEstadoSensorOK() {
   bool dhtOk = (fallosSeguidos < MAX_FALLOS);
   bool mq2Ok = (!mq2Calibrado) || (fallosMQ2Seguidos < MAX_FALLOS);
   sensorOk = dhtOk && mq2Ok;
+}
+
+const char* nombreEstadoNodo(EstadoNodo estado) {
+  switch (estado) {
+    case ESTADO_PRECALENTANDO:   return "PRECALENTANDO";
+    case ESTADO_CALIBRANDO:      return "CALIBRANDO";
+    case ESTADO_VIGILANDO:       return "VIGILANDO";
+    case ESTADO_SOSPECHA:        return "SOSPECHA";
+    case ESTADO_ALARMA_CONFIRMADA:return "ALARMA_CONFIRMADA";
+    case ESTADO_ERROR_SEGURO:    return "ERROR_SEGURO";
+    default:                     return "DESCONOCIDO";
+  }
+}
+
+void cambiarEstadoNodo(EstadoNodo nuevoEstado) {
+  if (estadoNodo != nuevoEstado) {
+    estadoNodo = nuevoEstado;
+    estadoNodoPendiente = true;
+    Serial.printf("[fsm] -> %s\n", nombreEstadoNodo(estadoNodo));
+  }
+}
+
+uint8_t contarSensoresActivos() {
+  bool humoActivo  = mq2Calibrado && mq2LecturaValida && isfinite(razon_rs_r0) && isfinite(umbral_adaptativo_rs_r0) &&
+                     (razon_rs_r0 <= umbral_adaptativo_rs_r0);
+  bool llamaActiva = (estado_llama == 1);
+  bool tempActiva  = isfinite(temperatura) && (temperatura >= UMBRAL_TEMP_CRIT_C);
+  return (uint8_t)humoActivo + (uint8_t)llamaActiva + (uint8_t)tempActiva;
+}
+
+void actualizarFSMNodo() {
+  bool dhtDisponible = isfinite(temperatura) && isfinite(humedad);
+  bool puedeEvaluarError = dhtDisponible || mq2Calibrado;
+
+  if (faseMQ2 == MQ2_PRECALENTANDO) {
+    cambiarEstadoNodo(ESTADO_PRECALENTANDO);
+    return;
+  }
+  if (faseMQ2 == MQ2_CALIBRANDO) {
+    cambiarEstadoNodo(ESTADO_CALIBRANDO);
+    return;
+  }
+  if (!mq2Calibrado) {
+    cambiarEstadoNodo(ESTADO_CALIBRANDO);
+    return;
+  }
+
+  if (!sensorOk && puedeEvaluarError) {
+    cambiarEstadoNodo(ESTADO_ERROR_SEGURO);
+    return;
+  }
+
+  uint8_t sensoresActivos = contarSensoresActivos();
+  switch (estadoNodo) {
+    case ESTADO_PRECALENTANDO:
+    case ESTADO_CALIBRANDO:
+      cambiarEstadoNodo(ESTADO_VIGILANDO);
+      break;
+
+    case ESTADO_VIGILANDO:
+      if (sensoresActivos >= 1) {
+        tEntradaSospecha = millis();
+        cambiarEstadoNodo(ESTADO_SOSPECHA);
+      }
+      break;
+
+    case ESTADO_SOSPECHA:
+      if (sensoresActivos >= 2) {
+        cambiarEstadoNodo(ESTADO_ALARMA_CONFIRMADA);
+      } else if (millis() - tEntradaSospecha >= TIEMPO_SOSPECHA_MS) {
+        cambiarEstadoNodo(ESTADO_VIGILANDO);
+      }
+      break;
+
+    case ESTADO_ALARMA_CONFIRMADA:
+      if (sensoresActivos < 2) {
+        cambiarEstadoNodo(ESTADO_VIGILANDO);
+      }
+      break;
+
+    case ESTADO_ERROR_SEGURO:
+      if (sensorOk && sensoresActivos < 2) {
+        cambiarEstadoNodo(ESTADO_VIGILANDO);
+      }
+      break;
+  }
+}
+
+void publicarEstadoNodo() {
+  if (!mqtt.connected()) return;
+  const char* estado = nombreEstadoNodo(estadoNodo);
+  if (!estadoNodoPendiente && ultimoEstadoPublicado == estado) return;
+  if (mqtt.publish(topicEstado.c_str(), estado, true)) {
+    ultimoEstadoPublicado = estado;
+    estadoNodoPendiente = false;
+  }
+}
+
+void actualizarSalidaLocalEstado() {
+  uint32_t ahora = millis();
+  if (ahora - tLogEstado < PERIODO_LOG_ESTADO_MS) return;
+  tLogEstado = ahora;
+  Serial.printf("[ui] estado=%s llama=%u sensor_ok=%u\n",
+                nombreEstadoNodo(estadoNodo), (unsigned)estado_llama, sensorOk ? 1 : 0);
 }
 
 void actualizarMQ2() {
@@ -236,7 +358,7 @@ void mantenerMQTT() {
   if (mqtt.connect(clientId.c_str(), MQTT_USER, MQTT_PASS,
                    topicEstado.c_str(), 1, true, "offline")) {
     Serial.println("OK");
-    mqtt.publish(topicEstado.c_str(), "online", true); 
+    estadoNodoPendiente = true;
     mqtt.subscribe(topicCmd.c_str(), 1); 
     esperaReconexion = ESPERA_INICIAL;
   } else {
@@ -340,6 +462,9 @@ void loop() {
   }
   actualizarMQ2();
   actualizarEstadoSensorOK();
+  actualizarFSMNodo();
+  publicarEstadoNodo();
+  actualizarSalidaLocalEstado();
   
   // Publicar cada 5 segundos con el último valor disponible de ambos
   if (ahora - tPub >= PERIODO_PUB_MS) { 
