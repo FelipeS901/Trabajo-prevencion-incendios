@@ -80,9 +80,9 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 - Asignatura: **Fundamentos de IoT**
 
 ## Firmware oficial y versiones históricas
-- Firmware oficial: `CODIGOS/E33_1510comentado`.
+- Firmware oficial: `CODIGOS/E33_P23_Firmware.ino`.
 - Variante equivalente sin comentarios: `CODIGOS/E33_1510`.
-- Versiones históricas/de desarrollo (no oficiales): `GT4/codigo-nodo.ino` y `NP1/NP1_Codigo.ino`.
+- Versiones históricas/de desarrollo (no oficiales): `CODIGOS/archivo-anterior/codigo-nodo.ino` y `CODIGOS/archivo-anterior/NP1_Codigo.ino`.
 
 ## Estados FSM publicados en `estado`
 En el firmware actual, el campo `estado` del payload se publica como **valor numérico** según el enum de seis estados:
