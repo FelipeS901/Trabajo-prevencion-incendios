@@ -28,7 +28,7 @@ En NP2, el equipo extendió el nodo local hacia un sistema conectado mediante MQ
 
 | Integrante | Contribución en NP2 y correcciones de NP1 | Evidencia |
 | :--- | :--- | :--- |
-| **Arthur Urtubia** | Desarrollo del modelo 3D y apoyo en la integración de mejoras de hardware. | [Carpeta de documentación]((https://github.com/FelipeS901/Trabajo-prevencion-incendios/tree/main/Proyecto%203D)) |
+| **Arthur Urtubia** | Desarrollo del modelo 3D y apoyo en la integración de mejoras de hardware. | [Carpeta Proyecto 3D](https://github.com/FelipeS901/Trabajo-prevencion-incendios/tree/main/Proyecto%203D) |
 | **Javier Vidal** | Apoyo en la configuración MQTT, conexiones y lógica de envío de datos al broker. | [Función `publicarDatos()`](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino#L923-L1005) |
 | **Fiorella Bovet** | Apoyo en la edición del firmware, reconexión no bloqueante y actualización del grafo FSM a seis estados. | [Firmware actualizado](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino) · [Grafo FSM](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/docs/Grafo-Estados.drawio) |
 | **Felipe Stuardo** | Documentación de GT4, apoyo en la gestión del repositorio, organización de entregas y apoyo en el desarrollo del modelo 3D. | [Historial del repositorio](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/) |
