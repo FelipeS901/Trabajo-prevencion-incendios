@@ -74,6 +74,44 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
 
+### Hito 1: Evaluación Regular 1 — NP1: Nodo local
+
+| Integrante | Módulo o tramo desarrollado | Evidencia |
+| :--- | :--- | :--- |
+| **Felipe Stuardo** | Gestión inicial del repositorio, organización de carpetas y creación de entregas. | [Historial de commits](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/) |
+| **Arthur Urtubia** | Desarrollo del código base, apoyo en las conexiones de hardware y realización de los cálculos matemáticos (calibración MQ-2, umbrales) necesarios para el funcionamiento del sistema.. | [Código histórico de NP1](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/archivo-anterior/NP1_Codigo.ino) |
+| **Javier Vidal** | Desarrollo del código base y apoyo en las conexiones de hardware. | [Código histórico de NP1](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/archivo-anterior/NP1_Codigo.ino) |
+| **Fiorella Bovet** | Diseño de la máquina de estados, elaboración de diagramas, apoyo en la presentación y soldadura de componentes. | [Grafo de estados](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/docs/Grafo-Estados.drawio) |
+| **Victoria Rojas** | Elaboración de documentos de guía, organización del equipo, soldadura de componentes, elaboración de la presentación de NP1 y apoyo en el envío de entregas. | [Documentación del proyecto](https://github.com/FelipeS901/Trabajo-prevencion-incendios/tree/main/docs) |
+
+---
+
+### Hito 2: Evaluación Regular 2 — NP2: Sistema IoT conectado y persistido
+
+En NP2, el equipo extendió el nodo local hacia un sistema conectado mediante
+MQTT y persistencia de datos. La distribución del trabajo se documenta por
+tramos funcionales y se respalda con archivos, funciones y commits del
+repositorio.
+
+| Integrante | Contribución en NP2 y correcciones de NP1 | Evidencia |
+| :--- | :--- | :--- |
+| **Arthur Urtubia** | Desarrollo del modelo 3D y apoyo en la integración de mejoras de hardware. | [Carpeta de documentación](https://github.com/FelipeS901/Trabajo-prevencion-incendios/tree/main/docs) |
+| **Javier Vidal** | Apoyo en la configuración MQTT, conexiones y lógica de envío de datos al broker. | [Función `publicarDatos()`](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino#L923-L1005) |
+| **Fiorella Bovet** | Apoyo en la edición del firmware, reconexión no bloqueante y actualización del grafo FSM a seis estados. | [Firmware actualizado](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino) · [Grafo FSM](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/docs/Grafo-Estados.drawio) |
+| **Felipe Stuardo** | Documentación de GT4, apoyo en la gestión del repositorio, organización de entregas y revisión de tags/releases. | [Historial del repositorio](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/) |
+| **Victoria Rojas** | Integración y actualización del firmware oficial, incluyendo el sensor MQ-2 y la coordinación de cambios finales del repositorio. | [Commits de Victoria Rojas](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/?author=vctoriaing) |
+
+#### Correcciones de NP1 incorporadas o en proceso de verificación
+
+- **Grafo FSM:** la fuente editable representa seis estados:
+  `PRECALENTANDO`, `CALIBRANDO`, `VIGILANDO`, `SOSPECHA`,
+  `ALARMA_CONFIRMADA` y `ERROR_SEGURO`.
+- **Umbral de humo:** el firmware informa el umbral como una razón
+  adimensional `Rs/R0`, no como un valor en kΩ.
+- **Calibración:** se utilizan `60` muestras, tomadas cada `50 ms`, después
+  del precalentamiento del MQ-2.
+
+
 ## Identificación del proyecto
 - Equipo: **E33**
 - Proyecto: **P23**
