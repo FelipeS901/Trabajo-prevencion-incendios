@@ -104,15 +104,20 @@ Utilizando Wokwi se logró simular la calibración de dos puntos usando un ESP32
 ### Montaje Hardware
 <img width="1036" height="1600" alt="MontajeProyecto" src="https://github.com/user-attachments/assets/565418c7-54a0-4ea9-8792-dcc32a2bfc59" />
 
-### Umbral del MQ-2 
-(Corrección de Unidades y Matemática):** Se subsanó el error de la NP1 donde se presentaba el umbral como una resistencia en kΩ y se calculaba incorrectamente el porcentaje. Se aclara y documenta que el firmware calcula el umbral como una **razón adimensional (Rs/R0). 
+### Umbral del MQ-2
 
-  - **Cálculo real:** Una caída base del 30% respecto a la línea base (1.0) arroja un umbral teórico inicial de 0.70, el cual es ajustado dinámicamente sumando 3 desviaciones estándar (3*sigma) para compensar el ruido del montaje.
-  - **Evidencia y datos reales:** Los valores se obtienen directamente de la salida serial del nodo, no de estimaciones teóricas. La calibración promedia exactamente **60 muestras** (tomadas cada 50 ms). En la última prueba, se obtuvo una línea base de 584 mV y un umbral adimensional real de `0.67`, el cual se ve reflejado en el payload JSON publicado (`"mq2_umbral": 0.67`).
-<img width="1425" height="1050" alt="mq-2 grafico" src="<img width="1339" height="475" alt="image" src="https://github.com/user-attachments/assets/79f17540-4e0d-4706-9485-e6d79fcc9719" />
-<img width="135" height="23" alt="image" src="https://github.com/user-attachments/assets/79da6c68-d173-4a6b-ac76-37ecbb27a474" />
+**(Corrección de Unidades y Matemática):** Se subsanó el error de la NP1 donde se presentaba el umbral como una resistencia en kΩ y se calculaba incorrectamente el porcentaje. Se aclara y documenta que el firmware calcula el umbral como una **razón adimensional (Rs/R0)**. 
 
-" />
+- **Cálculo real:** Una caída base del 30% respecto a la línea base (1.0) arroja un umbral teórico inicial de 0.70, el cual es ajustado dinámicamente sumando 3 desviaciones estándar (3*sigma) para compensar el ruido del montaje.
+- **Evidencia y datos reales:** Los valores se obtienen directamente de la salida serial del nodo, no de estimaciones teóricas. La calibración promedia exactamente **60 muestras** (tomadas cada 50 ms). En la última prueba, se obtuvo una línea base de 584 mV y un umbral adimensional real de `0.67`, el cual se ve reflejado en el payload JSON publicado (`"mq2_umbral": 0.67`).
+
+*(Nota: El gráfico de estabilización adjunto muestra la curva de los mV crudos y filtrados hasta estabilizar la línea base en 584 mV. El umbral dinámico final de 0.67 no se dibuja como una línea estática porque el código lo calcula en tiempo real tras la calibración).*
+
+#### Gráfico de estabilización (MQ-2)
+<img width="800" alt="mq-2 grafico" src="https://github.com/user-attachments/assets/79f17540-4e0d-4706-9485-e6d79fcc9719" />
+
+#### Evidencia JSON del Umbral Real
+<img width="300" alt="JSON Umbral" src="https://github.com/user-attachments/assets/79da6c68-d173-4a6b-ac76-37ecbb27a474" />
 
 ### Evidencias GT2
 - **Ítem 6: Transición a Estado de Error** <img width="826" height="280" alt="image" src="https://github.com/user-attachments/assets/ae5123e1-3c97-4a95-a9d8-04b836fef744" />
