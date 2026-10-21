@@ -54,9 +54,8 @@ Tras revisar la retroalimentación docente, el equipo verificó el estado del fi
 - Sensor IR (llama)
 
 ### Funcionamiento
-Si se detecta humo y llama simultáneamente:
-- Se activa una alarma local (buzzer) junto a luces LED.
-- Se envían datos a una plataforma web (MQTT).
+El nodo monitorea humo, llama y temperatura. Si al menos un sensor indica una condición de peligro, el sistema entra en SOSPECHA. La alarma se confirma cuando al menos dos de los tres sensores indican peligro simultáneamente.
+La alarma confirmada activa el buzzer y el LED de alerta, y permanece enclavada hasta recibir un rearme manual o MQTT con la condición de peligro disipada.
 
 ### Umbrales sensores
 - **DHT22:** Temperatura crítica: 60°C
@@ -129,11 +128,11 @@ Utilizando Wokwi se logró simular la calibración de dos puntos usando un ESP32
 ## Conectividad y Backend (GT4 / GT5)
 
 ### Tabla de Tópicos MQTT (GT4)
-| Nombre del Tópico | QoS | Retained | Descripción del Payload |
+| Nombre del tópico | QoS | Retained | Descripción |
 | :--- | :---: | :---: | :--- |
-| `curso/E33/P23/nodo1` | 1 | Sí | JSON plano con datos físicos calibrados (temperatura, humedad, razon_rs_r0, llama, rssi_dbm, sensor_ok) |
-| `curso/E33/P23/nodo1/estado` | 1 | Sí | String de texto simple con el estado actual de la máquina de estados (FSM) |
-| `curso/E33/P23/nodo1/cmd` | 1 | No | Reservado para recepción de comandos entrantes |
+| `curso/E33/P23/nodo1` | 1 | Sí | JSON plano con temperatura, humedad, razón `Rs/R0`, llama, estado numérico y estado de sensores. |
+| `curso/E33/P23/nodo1/estado` | 1 | Sí | Estado de disponibilidad MQTT: `online`/`offline`. |
+| `curso/E33/P23/nodo1/cmd` | 1 | No | Recibe comandos JSON, incluyendo la solicitud de `rearme`. |
 
 ### Esquema de InfluxDB
 - **Bucket:** `mediciones`
