@@ -28,17 +28,22 @@ En NP2, el equipo extendió el nodo local hacia un sistema conectado mediante MQ
 
 | Integrante | Contribución en NP2 y correcciones de NP1 | Evidencia |
 | :--- | :--- | :--- |
-| **Arthur Urtubia** | Desarrollo del modelo 3D y apoyo en la integración de mejoras de hardware. | [Carpeta de documentación](https://github.com/FelipeS901/Trabajo-prevencion-incendios/tree/main/docs) |
+| **Arthur Urtubia** | Desarrollo del modelo 3D y apoyo en la integración de mejoras de hardware. | [Carpeta de documentación](Trabajo-prevencion-incendios/tree/main/Proyecto%203D) |
 | **Javier Vidal** | Apoyo en la configuración MQTT, conexiones y lógica de envío de datos al broker. | [Función `publicarDatos()`](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino#L923-L1005) |
 | **Fiorella Bovet** | Apoyo en la edición del firmware, reconexión no bloqueante y actualización del grafo FSM a seis estados. | [Firmware actualizado](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino) · [Grafo FSM](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/docs/Grafo-Estados.drawio) |
 | **Felipe Stuardo** | Documentación de GT4, apoyo en la gestión del repositorio, organización de entregas y apoyo en el desarrollo del modelo 3D. | [Historial del repositorio](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/) |
 | **Victoria Rojas** | Integración y actualización del firmware oficial, incluyendo el sensor MQ-2, revisión de tags/releases y la coordinación de cambios finales del repositorio. | [Commits de Victoria Rojas](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/?author=vctoriaing) |
 
-#### Correcciones de NP1 incorporadas
-- **Grafo FSM:** Actualizado a seis estados (`PRECALENTANDO`, `CALIBRANDO`, `VIGILANDO`, `SOSPECHA`, `ALARMA_CONFIRMADA` y `ERROR_SEGURO`).
-- **Umbral de humo:** El firmware informa el umbral como una razón adimensional `Rs/R0`, no en kΩ.
-- **Calibración:** Se utilizan 60 muestras, tomadas cada 50 ms, después del precalentamiento del MQ-2.
+#### Correcciones de NP1 y aclaraciones de implementación
 
+Tras revisar la retroalimentación docente, el equipo verificó el estado del firmware y la documentación, aplicando las siguientes mejoras y aclaraciones:
+
+- **Grafo FSM:** Se confirma y documenta el uso del grafo de **6 estados** (`PRECALENTANDO`, `CALIBRANDO`, `VIGILANDO`, `SOSPECHA`, `ALARMA_CONFIRMADA`, `ERROR_SEGURO`) alineado con el firmware real.
+- **Umbral MQ-2:** Se aclara que el firmware calcula el umbral de forma **adimensional (Rs/R0)**. Los valores en kΩ fueron corregidos, mostrando ahora los valores reales extraídos de la salida serial (`mq2_umbral: 0.67`).
+- **Protección de Hardware:** El montaje físico cuenta con un filtro RC (resistencia de 1 kΩ y capacitor de 100 nF) en la entrada del GPIO 34. 
+- **Tensión del regulador (LM2596):** Se documenta que la calibración física de la salida del regulador se realizó durante las primeras etapas de soldadura y montaje (a cargo de Victoria y Fiorella). Mediante el uso de un multímetro, se ajustó la perilla del regulador hasta obtener una salida estable de ~5V. Esta medición real es la que fundamenta el valor asignado a la constante `VC_SENSOR_MV` en el firmware, asegurando la precisión del cálculo Rs/R0.
+- **Autoría:** Se agregó la tabla de trazabilidad por tramos en este README para cumplir con el criterio D7.
+- **Lógica de confirmación de alarma (SOSPECHA):** Se analizaron las observaciones docentes sobre el retraso de la alarma en incendios lejanos (donde solo llega humo) y la falta de escalamiento ante humo persistente. Para esta entrega, se mantuvo de forma consciente la exigencia de 2 sensores para blindar el sistema contra falsas alarmas. Como trabajo futuro (Evaluación 3), se documenta la implementación de un contador de reincidencia (escalamiento por tiempo de exposición al humo) y la evaluación de un umbral térmico relativo a la temperatura ambiente.
 ---
 
 ## Descripción Técnica del Proyecto
