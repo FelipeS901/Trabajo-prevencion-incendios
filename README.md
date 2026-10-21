@@ -74,6 +74,10 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 ## integrantes:
 - Fiorella Bovet, Victoria Rojas, Felipe Stuardo, Arthur Urtubia y Javier Vidal
 
+## Autoría y trazabilidad del firmware (Auditoría de contribuciones)
+
+Para dar cumplimiento al criterio D7 (Autoría y trazabilidad) y a la retroalimentación de la Evaluación Regular 1, se detalla la contribución real de cada integrante del equipo E33.
+
 ### Hito 1: Evaluación Regular 1 — NP1: Nodo local
 
 | Integrante | Módulo o tramo desarrollado | Evidencia |
@@ -98,8 +102,8 @@ repositorio.
 | **Arthur Urtubia** | Desarrollo del modelo 3D y apoyo en la integración de mejoras de hardware. | [Carpeta de documentación](https://github.com/FelipeS901/Trabajo-prevencion-incendios/tree/main/docs) |
 | **Javier Vidal** | Apoyo en la configuración MQTT, conexiones y lógica de envío de datos al broker. | [Función `publicarDatos()`](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino#L923-L1005) |
 | **Fiorella Bovet** | Apoyo en la edición del firmware, reconexión no bloqueante y actualización del grafo FSM a seis estados. | [Firmware actualizado](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/CODIGOS/E33_P23_Firmware.ino) · [Grafo FSM](https://github.com/FelipeS901/Trabajo-prevencion-incendios/blob/main/docs/Grafo-Estados.drawio) |
-| **Felipe Stuardo** | Documentación de GT4, apoyo en la gestión del repositorio, organización de entregas y revisión de tags/releases. | [Historial del repositorio](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/) |
-| **Victoria Rojas** | Integración y actualización del firmware oficial, incluyendo el sensor MQ-2 y la coordinación de cambios finales del repositorio. | [Commits de Victoria Rojas](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/?author=vctoriaing) |
+| **Felipe Stuardo** | Documentación de GT4, apoyo en la gestión del repositorio, organización de entregas y apoyo desarrollo modelo 3D. | [Historial del repositorio](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/) |
+| **Victoria Rojas** | Integración y actualización del firmware oficial, incluyendo el sensor MQ-2, revisión de tags/releases y la coordinación de cambios finales del repositorio. | [Commits de Victoria Rojas](https://github.com/FelipeS901/Trabajo-prevencion-incendios/commits/main/?author=vctoriaing) |
 
 #### Correcciones de NP1 incorporadas o en proceso de verificación
 
