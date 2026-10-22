@@ -152,7 +152,8 @@ Utilizando Wokwi se logró simular la calibración de dos puntos usando un ESP32
 ### Documentación en `docs/`
 La documentación consolidada del proyecto está en `docs/`:
 - PDF de lanzamiento: [`docs/E33_P23_Lanzamiento_Proyecto.pdf`](docs/E33_P23_Lanzamiento_Proyecto.pdf)
-- Editables disponibles:
+- Arquitectura por capas (actualizado): [`docs/Arquitectura Operativa por Capas.jpg`](docs/Arquitectura%20Operativa%20por%20Capas.jpg)
+- Editables disponibles(desactualizados):
   - [`docs/Arquitectura-Capas.drawio`](docs/Arquitectura-Capas.drawio)
   - [`docs/Arquitectura-capas.json`](docs/Arquitectura-capas.json)
   - [`docs/Grafo-Estados.drawio`](docs/Grafo-Estados.drawio)
