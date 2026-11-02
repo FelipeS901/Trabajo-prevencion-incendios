@@ -1,0 +1,227 @@
+[
+  {
+    "id": "5028fc56caf64c36",
+    "type": "tab",
+    "label": "Flow 1",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "nodo_mqtt_in",
+    "type": "mqtt in",
+    "z": "5028fc56caf64c36",
+    "name": "Leer Telemetría",
+    "topic": "curso/E33/P23/nodo1",
+    "qos": "1",
+    "datatype": "utf8",
+    "broker": "bf987c80a56867c4",
+    "nl": false,
+    "rap": false,
+    "inputs": 0,
+    "x": 480,
+    "y": 320,
+    "wires": [
+      [
+        "nodo_json_parse"
+      ]
+    ]
+  },
+  {
+    "id": "nodo_json_parse",
+    "type": "json",
+    "z": "5028fc56caf64c36",
+    "name": "Convertir a JSON",
+    "property": "payload",
+    "action": "obj",
+    "pretty": false,
+    "x": 690,
+    "y": 320,
+    "wires": [
+      [
+        "nodo_debug_telemetria"
+      ]
+    ]
+  },
+  {
+    "id": "nodo_debug_telemetria",
+    "type": "debug",
+    "z": "5028fc56caf64c36",
+    "name": "Verificar Payload",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 910,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "nodo_inyectar_rearme",
+    "type": "inject",
+    "z": "5028fc56caf64c36",
+    "name": "🔴 BOTÓN REARME",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "rearme",
+    "payloadType": "str",
+    "x": 490,
+    "y": 420,
+    "wires": [
+      [
+        "nodo_formatear_comando"
+      ]
+    ]
+  },
+  {
+    "id": "nodo_formatear_comando",
+    "type": "function",
+    "z": "5028fc56caf64c36",
+    "name": "Formatear a JSON",
+    "func": "msg.payload = { \n    comando: msg.payload \n};\nreturn msg;",
+    "outputs": 1,
+    "timeout": "",
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 710,
+    "y": 420,
+    "wires": [
+      [
+        "nodo_mqtt_out"
+      ]
+    ]
+  },
+  {
+    "id": "nodo_mqtt_out",
+    "type": "mqtt out",
+    "z": "5028fc56caf64c36",
+    "name": "Enviar a /cmd",
+    "topic": "curso/E33/P23/nodo1/cmd",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "bf987c80a56867c4",
+    "x": 920,
+    "y": 420,
+    "wires": []
+  },
+  {
+    "id": "5ce1ef9f9f98e8ab",
+    "type": "function",
+    "z": "5028fc56caf64c36",
+    "name": "Construir comando",
+    "func": "const accion = msg.payload;\nif (accion !== \"ON\" && accion !== \"OFF\") {\n    return null;\n}\n\nmsg.payload = {cmd:accion};\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 710,
+    "y": 580,
+    "wires": [
+      [
+        "nodo_mqtt_out"
+      ]
+    ]
+  },
+  {
+    "id": "9ed7d8f27d546da2",
+    "type": "inject",
+    "z": "5028fc56caf64c36",
+    "name": "ON",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "ON",
+    "payloadType": "str",
+    "x": 490,
+    "y": 520,
+    "wires": [
+      [
+        "5ce1ef9f9f98e8ab"
+      ]
+    ]
+  },
+  {
+    "id": "862df00ee38da805",
+    "type": "inject",
+    "z": "5028fc56caf64c36",
+    "name": "OFF",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "OFF",
+    "payloadType": "str",
+    "x": 490,
+    "y": 620,
+    "wires": [
+      [
+        "5ce1ef9f9f98e8ab"
+      ]
+    ]
+  },
+  {
+    "id": "bf987c80a56867c4",
+    "type": "mqtt-broker",
+    "name": "",
+    "broker": "10.0.0.10",
+    "port": "1883",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "autoUnsubscribe": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthRetain": "false",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closeRetain": "false",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willRetain": "false",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  }
+]
