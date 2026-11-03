@@ -87,6 +87,7 @@ Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en 
 - **Línea Base y Umbral Adaptativo:** Tras el precalentamiento, se promedian 60 muestras (`N_MUESTRAS_CAL`) para calcular el umbral de activación para la condición de alerta/humo se define a partir de la caída de la razón Rs/R0, se define como una caída del 30% respecto a R0, sumado a 3 sigmas de la dispersión del montaje, asegurando que las fluctuaciones normales del aire limpio no crucen erróneamente el umbral de detección.
 - **Umbrales Críticos:** Temperatura (`UMBRAL_TEMP_CRIT = 40.0 °C`) para evitar falsas alarmas por altas temperaturas ambientales y facilitar la activación en la presentación final del proyecto.
 - **Persistencia de Fallos (`MAX_INVALIDAS = 8`):** Tolerancia de 8 muestras consecutivas con error (equivalente a 24 segundos) para filtrar ruido y commutar a `ERROR_SEGURO` ante fallas.
+- **Ciclo for para alerta:** Está configurado para 2 minutos ya que actúa como un filtro temporal, garantiza que un aumento de temperatura registrado en el panel de `Grafana` no corresponda a un pico transitorio sino que una alerta catastrófica. 
 
 ---
 
