@@ -102,7 +102,8 @@ float humedad = NAN;
 uint8_t invalidasDHT = 0;
 bool dhtOk = false;
 
-// Indica que existe una lectura DHT nueva pendiente de publicar.
+// Solo la temperatura espera a tener una lectura nueva antes de publicarse.
+// La humedad se publica siempre (como en el codigo original).
 bool temperaturaNueva = false;
 
 uint8_t llamaDetectada = 0;
@@ -309,7 +310,7 @@ void leerDHT22() {
     humedad = lecturaH;
     invalidasDHT = 0;
 
-    // Hay una lectura nueva disponible.
+    // Hay una lectura nueva de temperatura disponible.
     temperaturaNueva = true;
   }
 
@@ -951,20 +952,26 @@ void publicarDatos() {
 
   JsonDocument doc;
 
-  // Solo se publican temperatura y humedad cuando existe una lectura DHT nueva.
+  // Temperatura: solo se publica cuando hay lectura DHT nueva (cada 30 s).
+  // Asi no se repite el mismo valor en los 6 JSON intermedios.
   if (
     temperaturaNueva &&
     dhtOk &&
-    !isnan(temperatura) &&
-    !isnan(humedad)
+    !isnan(temperatura)
   ) {
     doc["temperatura"] =
       roundf(temperatura * 10.0f) / 10.0f;
 
+    temperaturaNueva = false;
+  }
+
+  // Humedad: se publica SIEMPRE que sea valida (como en el codigo original).
+  if (
+    dhtOk &&
+    !isnan(humedad)
+  ) {
     doc["humedad"] =
       roundf(humedad * 10.0f) / 10.0f;
-
-    temperaturaNueva = false;
   }
 
   doc["razon_rs_r0"] =
