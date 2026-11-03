@@ -83,8 +83,8 @@ En el firmware actual, el campo `estado` del payload se publica como **valor num
 Las decisiones para configurar los tiempos, umbrales y guardias de seguridad en nuestra máquina de estados fueron actualizadas a partir de las revisiones docentes y el análisis de los sensores:
 
 - **Precalentamiento y Calibración:** Se fijó un tiempo no bloqueante de 3 minutos (180 s) para permitir que el elemento calefactor del MQ-2 alcance el equilibrio térmico y limpie impurezas superficiales.
-- **Línea Base y Umbral Adaptativo:** Tras el precalentamiento, se promedian 60 muestras (`N_MUESTRAS_CAL`) para calcular la resistencia R0. El umbral de humo se define como una caída del 30% respecto a R0, sumado a 3 sigmas de la dispersión del montaje.
-- **Umbrales Críticos:** Temperatura (`UMBRAL_TEMP_CRIT = 60.0 °C`) para evitar falsas alarmas por altas temperaturas ambientales.
+- **Línea Base y Umbral Adaptativo:** Tras el precalentamiento, se promedian 60 muestras (`N_MUESTRAS_CAL`) para calcular el umbral de activación para la condición de alerta/humo se define a partir de la caída de la razón Rs/R0, se define como una caída del 30% respecto a R0, sumado a 3 sigmas de la dispersión del montaje, asegurando que las fluctuaciones normales del aire limpio no crucen erróneamente el umbral de detección.
+- **Umbrales Críticos:** Temperatura (`UMBRAL_TEMP_CRIT = 40.0 °C`) para evitar falsas alarmas por altas temperaturas ambientales y facilitar la activación en la presentación final del proyecto.
 - **Persistencia de Fallos (`MAX_INVALIDAS = 8`):** Tolerancia de 8 muestras consecutivas con error (equivalente a 24 segundos) para filtrar ruido y commutar a `ERROR_SEGURO` ante fallas.
 
 ---
