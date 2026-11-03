@@ -143,7 +143,7 @@ Utilizando Wokwi se logró simular la calibración de dos puntos usando un ESP32
 
 ---
 ### Comportamiento si el nodo deja de publicar
--Si pierde conexión o deja de publicar telemetría durante más de 5 minutos, la consulta Flux deja de recibir registros en la ventana de tiempo `(range(start: -5m))`, provocando que Grafana interprete la ausencia de flujo y conmute automáticamente la regla de alerta al estado `NoData`
+- Si pierde conexión o deja de publicar telemetría durante más de 5 minutos, la consulta Flux deja de recibir registros en la ventana de tiempo `(range(start: -5m))`, provocando que Grafana interprete la ausencia de flujo y conmute automáticamente la regla de alerta al estado `NoData`
 
 ---
 
