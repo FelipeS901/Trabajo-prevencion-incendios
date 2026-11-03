@@ -76,6 +76,7 @@ En el firmware actual, el campo `estado` del payload se publica como **valor num
 - `3 SOSPECHA`
 - `4 ALARMA_CONFIRMADA`
 - `5 ERROR_SEGURO`
+- `6 ACTUANDO_REMOTO`
 
 ---
 
