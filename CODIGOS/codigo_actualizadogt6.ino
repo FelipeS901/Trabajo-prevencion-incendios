@@ -50,7 +50,7 @@ const float UMBRAL_MAX = 0.85;
 
 
 // Umbral de temperatura critica.
-const float UMBRAL_TEMP_CRIT = 60.0;
+const float UMBRAL_TEMP_CRIT = 40.0;
 
 // [FUSION-INICIO] Parametros del comando remoto
 // Tiempo maximo que el indicador permanece encendido sin recibir otro ON (si se cae la red, se apaga solo).
