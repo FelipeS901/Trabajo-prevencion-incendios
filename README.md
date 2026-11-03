@@ -67,6 +67,7 @@ La alarma confirmada activa el buzzer y el LED de alerta, y permanece enclavada 
 - Tolerancia a errores de lectura: 8 lecturas
 - Precalentamiento sensor MQ-2: 3 minutos (tiempo en el cual no lee ni emite alarmas)
 
+
 ### Estados FSM publicados en `estado`
 En el firmware actual, el campo `estado` del payload se publica como **valor numérico** según el enum de seis estados:
 - `0 PRECALENTANDO`
